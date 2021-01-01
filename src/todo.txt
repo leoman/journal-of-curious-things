@@ -1,0 +1,21 @@
+Build homepage
+build blog post page
+build products page
+build product page
+build checkout page 1 (email)
+build checkout page 2 (paypal)
+build checkout page 3 (confirmation)
+
+build admin homepage
+build admin blogs page
+build admin blog page
+build admin products page
+build admin product page
+build admin orders page
+build admin orders page
+build admin tags page
+build admin tags page
+build admin themes page
+build admin themes page
+
+Move wysisyg into npm package

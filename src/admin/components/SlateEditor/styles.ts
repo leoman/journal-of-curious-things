@@ -1,0 +1,222 @@
+import styled from 'styled-components';
+
+export const SlateEditorWrapper  = styled.div`
+  width: 100%;
+`;
+
+export const SlateWrapper = styled.div`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  color: var(--river-bed);
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem 1.75rem;
+  margin: 16px 0 8px;
+  line-height: 1.25;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  font-size: 16px;
+  max-height: 600px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  box-sizing: border-box;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+
+  .slate-editor-content-wrapper {
+    position: relative;
+
+    .slate-editor-content-toolbar {
+      z-index: 5;
+      display: block;
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      pointer-events: none;
+
+      span {
+        box-sizing: border-box;
+        display: inline-flex;
+        color: #fff;
+        padding: 6px;
+        margin: 3px;
+        background-image: linear-gradient(180deg,#464646,#151515);
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        pointer-events: auto;
+      }
+    }
+  }
+
+  &:focus {
+    outline: none;
+    background-color: $white;
+  }
+
+  p {
+    margin-top: 1rem;
+  }
+
+  a {
+    color: var(--picton-blue);
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  strong {
+    font-weight: 700;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  :not(pre) > code {
+    font-family: monospace;
+    background-color: #eee;
+    padding: 3px;
+  }
+
+  blockquote {
+    border-left: 2px solid #ddd;
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 10px;
+    color: #aaa;
+    font-style: italic;
+    margin-top: 1rem;
+  }
+
+  ol,
+  ul {
+    margin-top: 1rem;
+    display: block;
+    list-style-type: decimal;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+
+    li {
+      display: list-item;
+      text-align: -webkit-match-parent;
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  img { 
+    margin-top: 1rem;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-top: 1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.15rem;
+  }
+
+  h6 {
+    font-size: 1rem;
+  }
+
+  .hr {
+    display: block;
+    max-width: 100%;
+    height: 2px;
+    margin: 24px 0;
+    background-color: #e1e4e8;
+    background-image: linear-gradient(to right, var(--catskill-light), var(--geyser), var(--catskill-light));
+  }
+
+  .double {
+    display: flex;
+    pointer-events: auto;
+    img {
+      width: 50%;
+    }
+  }
+`;
+
+export const SlateEditorOverlay  = styled.div`
+  position: fixed;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.75);
+  margin: 0;
+  padding: 0;
+  z-index: 1000;
+  // pointer-events: none;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+
+  .wrapper {
+    position: absolute;
+    top: 0;
+    left: calc(50% - 250px);
+    top: calc(50% - 100px);
+    z-index: 1030;
+    cursor: auto;
+    user-select: text;
+    text-align: left;
+    width: 500px;
+  }
+  
+  .inner {
+    -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    background-clip: padding-box;
+    border-radius: 4px;
+    padding: 20px;
+    pointer-events: auto;
+  }
+
+  .title {
+    margin: 0;
+    padding: 5px 0 4px;
+    border-bottom: 1px solid var(--catskill-white);
+    color: var(--slate-gray);
+    font-weight: 700;
+    margin-bottom: 5px;
+  }
+
+  .btn {
+    border: none;
+  }
+
+  form input,
+  form .btn {
+    pointer-events: auto;
+  }
+`;
