@@ -131,7 +131,7 @@ const PostsList = () => {
           <Card style={{ width: '100%' }}>
             <CardHeader title="Posts" />
             <Divider />
-            {/* <PerfectScrollbar> */}
+            <PerfectScrollbar>
               <Box minWidth={800}>
                 <Table>
                   <TableHead>
@@ -154,7 +154,7 @@ const PostsList = () => {
 
                 </Table>
               </Box>
-              {/* </PerfectScrollbar> */}
+              </PerfectScrollbar>
             </Card>
         </Grid>
       </Container>

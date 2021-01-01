@@ -5,7 +5,7 @@ import { createEditor } from 'slate'
 import { withHistory } from 'slate-history'
 
 import { Toolbar } from './components'
-import { initialstate, serializeValueToHtml } from './utils'
+import { initialstate } from './utils'
 import { onKeyDown } from './helpers'
 import { withImages, withLinks, withEmbeds } from './plugins'
 import { Element, Leaf } from './renderers'

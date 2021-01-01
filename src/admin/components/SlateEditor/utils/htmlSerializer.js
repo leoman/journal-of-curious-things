@@ -1,5 +1,5 @@
 import React from "react"
-import { Node, Text } from 'slate'
+import { Text } from 'slate'
 import escapeHtml from 'escape-html'
 
 const textAlign = (alignment) => {

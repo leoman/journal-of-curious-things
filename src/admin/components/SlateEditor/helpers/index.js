@@ -1,4 +1,4 @@
-import { Editor, Node, Transforms, Range } from 'slate'
+import { Editor, Transforms, Range } from 'slate'
 import isHotkey from 'is-hotkey'
 import isUrl from 'is-url'
 import imageExtensions from 'image-extensions'
@@ -126,7 +126,7 @@ export const wrapLink = (editor, url, selection) => {
 export const insertNewLink = (editor, element) => {
   const url = window.prompt('Enter the URL of the link: ', element.url)
   if (!url) return
-  const { selection } = editor
+  // const { selection } = editor
 }
 
 export const insertLink = (editor, url, selection) => {

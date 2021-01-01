@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useSelected, useFocused, useEditor } from 'slate-react'
 import { css } from '@emotion/css'
-import { insertNewImage, removeElement, insertNewLink, unWrapElement } from '../helpers'
+import { removeElement } from '../helpers'
 import Icon from '../components/icon'
 
 export const Leaf = ({ attributes, children, leaf }) => {
@@ -27,21 +27,22 @@ export const Leaf = ({ attributes, children, leaf }) => {
 export const ImageElement = ({ attributes, children, element }) => {
   const selected = useSelected()
   const focused = useFocused()
-  const editor = useEditor()
-  const { selection } = editor
-  const [showImageOverlay, setShowImageOverlay] = useState(false)
+  // const editor = useEditor()
+  // const { selection } = editor
+  // const [showImageOverlay, setShowImageOverlay] = useState(false)
   const handleShowImageOverlay = event => {
     event.preventDefault()
     console.log('handleShowImageOverlay');
-    setShowImageOverlay(true)
+    // setShowImageOverlay(true)
   } 
-  const handleClose = () => setShowImageOverlay(false)
-  const handleSubmit = url => insertNewImage(editor, selection, url)
+  // const handleClose = () => setShowImageOverlay(false)
+  // const handleSubmit = url => insertNewImage(editor, selection, url)
   return (
     // <ContentWrapperWithRemove attributes={attributes} element={element}>
       <div>
         <div contentEditable={false}>
           <img
+            alt={''}
             onDoubleClick={handleShowImageOverlay}
             src={element.url}
             className={css`
@@ -59,7 +60,7 @@ export const ImageElement = ({ attributes, children, element }) => {
 export const DoubleImageElement = ({ attributes, children, element }) => {
   const selected = useSelected()
   const focused = useFocused()
-  const editor = useEditor()
+  // const editor = useEditor()
   return (
     // <ContentWrapperWithRemove attributes={attributes} element={element}>
       <div>
@@ -67,6 +68,7 @@ export const DoubleImageElement = ({ attributes, children, element }) => {
           <div className="double">
             <img
              // onDoubleClick={handleShowImageOverlay}
+              alt={''}
               src={element.data.url1}
               className={css`
                 display: block;
@@ -74,6 +76,7 @@ export const DoubleImageElement = ({ attributes, children, element }) => {
               `}
             />
             <img
+              alt={''}
               src={element.data.url2}
               className={css`
                 display: block;
@@ -112,6 +115,7 @@ export const VideoElement = ({ attributes, children, element }) => {
             `}
           >
             <iframe
+              title={url}
               src={`${url}?title=0&byline=0&portrait=0`}
               frameBorder="0"
               style={{
@@ -131,7 +135,7 @@ export const VideoElement = ({ attributes, children, element }) => {
 }
 
 export const LinkElement = ({ attributes, children, element }) => {
-  const editor = useEditor()
+  // const editor = useEditor()
   return (
     <a
       {...attributes}
@@ -170,7 +174,7 @@ export const ContentWrapperWithRemove = ({ attributes, element, children }) => {
   useEffect(() => {
     const { selection } = editor;
     setElementSelected(selection);
-  }, [selected])
+  }, [selected, editor])
 
   const removeContent = (event) => {
     event.preventDefault()
