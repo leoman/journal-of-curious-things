@@ -14,6 +14,8 @@ import {
 import { ProductsActionCreators } from '../../../../redux/actions/product'
 import { ProductsActionTypes } from '../../../../redux/types'
 
+import { ThemesActionCreators } from '../../../../redux/actions/theme'
+
 import Layout from '../../Layout'
 import Page from '../../../components/Page'
 import Form from '../Form'
@@ -33,6 +35,9 @@ const ProductEdit = () => {
 
   const { products, loading, productError, product } = useSelector(
     (state: any) => state.ProductReducer,
+  )
+  const { themes, loading: themeLoading } = useSelector(
+    (state: any) => state.ThemeReducer,
   )
 
   const getProductsData = useCallback(() => {
@@ -62,13 +67,29 @@ const ProductEdit = () => {
     }
   }, [id, products, setProduct])
 
+  const getThemesData = useCallback(() => {
+    const { getThemes } = ThemesActionCreators
+    dispatch(getThemes())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!themes.length) {
+      getThemesData()
+    }
+  }, [themeLoading, themes, getThemesData])
+
   const onCancel = () => history.push('/admin/products')
 
   const onSubmit = useCallback((fields) => {
+    console.log('fields', fields)
     const { editProduct } = ProductsActionCreators
     dispatch(editProduct(fields))
     history.push('/admin/products')
   }, [dispatch, history])
+
+  if (loading || !product || !product.id) {
+    return null
+  }
 
   return (
     <Page>
@@ -84,6 +105,7 @@ const ProductEdit = () => {
                 onSubmit={onSubmit}
                 onCancel={onCancel}
                 product={product}
+                themesList={themes}
               />
             </Box>
           </Card>

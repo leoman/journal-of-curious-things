@@ -4,6 +4,8 @@ import { useParams } from "react-router"
 import Layout from '../../Layout'
 import { PostsActionCreators } from '../../../redux/actions/post'
 import { PostsActionTypes } from '../../../redux/types'
+import Loading from '../../../components/loading'
+import { renderContent } from '../../helpers'
 import {
   PostWrapper,
   PostBlock,
@@ -60,6 +62,10 @@ const PostView = () => {
       }
     }
   }, [slug, posts, setPost])
+
+  if (loading) {
+    return <Loading />
+  }
   
   return (
     <PostWrapper>
@@ -78,7 +84,7 @@ const PostView = () => {
         }
 
         <Content>
-          {post.content}
+          <div dangerouslySetInnerHTML={renderContent(post.content)} />
         </Content>
 
       </PostBlock>

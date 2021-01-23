@@ -4,12 +4,18 @@ import JournalAPI, { methods } from '../JournalAPI';
 const SERVICE = 'dev';
 
 export const ProductsActionCreators = {
-  getProducts: () => async (dispatch) => {
+  getProducts: (live = false) => async (dispatch) => {
     dispatch({
       type: ProductsActionTypes.GET_PRODUCTS_REQ,
     });
+
+    let filter = '';
+    if (live) {
+      filter = '?status=live'
+    }
+
     try {
-      const response: any = await JournalAPI(SERVICE, methods.GET, 'products');
+      const response: any = await JournalAPI(SERVICE, methods.GET, `products${filter}`);
       dispatch({
         type: ProductsActionTypes.GET_PRODUCTS_RES,
         payload: response.data.result || [],
@@ -76,6 +82,24 @@ export const ProductsActionCreators = {
       console.error('Error - deleteProduct:', e);
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_RES,
+        error: e.data ? e.data.message : 'Something went wrong',
+      });
+    }
+  },
+  deleteProductImage: (data) => async (dispatch) => {
+    dispatch({
+      type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_REQ,
+    });
+    try {
+      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'product-images', data);
+      dispatch({
+        type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES,
+        payload: data.id,
+      });
+    } catch (e) {
+      console.error('Error - deleteProductImages:', e);
+      dispatch({
+        type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES,
         error: e.data ? e.data.message : 'Something went wrong',
       });
     }

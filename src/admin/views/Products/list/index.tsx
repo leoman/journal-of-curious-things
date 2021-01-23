@@ -37,7 +37,7 @@ const TableRows = ({ products, ...links }: TableRowsI) => (
   </TableBody>  
 )
 
-const TableRowComp = ({ id, title, date, status, previewLink, editLink, deleteLink }: TableRowI) => (
+const TableRowComp = ({ id, slug, title, date, status, previewLink, editLink, deleteLink }: TableRowI) => (
   <TableRow>
     <TableCell>{ id }</TableCell>
     <TableCell>{ title }</TableCell>
@@ -54,7 +54,7 @@ const TableRowComp = ({ id, title, date, status, previewLink, editLink, deleteLi
           color="primary"
           variant="outlined"
           size="small"
-          onClick={() => previewLink(id)}
+          onClick={() => previewLink(slug)}
         >
         Preview
       </Button>
@@ -108,7 +108,7 @@ const ProductsList = () => {
   }, [loading, loaded, getProductData, productError]);
 
   const addProduct = () => history.push('/admin/products/create')
-  const previewProduct = (id: number) => history.push(`/admin/products/preview/${id}`)
+  const previewProduct = (slug: string) => history.push(`/admin/products/preview/${slug}`)
   const editProduct = (id: number) => history.push(`/admin/products/edit/${id}`)
   const deleteProduct = (id: number) => {
     const result = window.confirm("Are you sure you want to delete this product?");

@@ -4,12 +4,18 @@ import JournalAPI, { methods } from '../JournalAPI';
 const SERVICE = 'dev';
 
 export const PostsActionCreators = {
-  getPosts: () => async (dispatch) => {
+  getPosts: (live = false) => async (dispatch) => {
     dispatch({
       type: PostsActionTypes.GET_POSTS_REQ,
     });
+
+    let filter = '';
+    if (live) {
+      filter = '?status=live'
+    }
+
     try {
-      const response: any = await JournalAPI(SERVICE, methods.GET, 'posts');
+      const response: any = await JournalAPI(SERVICE, methods.GET, `posts${filter}`);
       dispatch({
         type: PostsActionTypes.GET_POSTS_RES,
         payload: response.data.result || [],

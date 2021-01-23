@@ -168,7 +168,7 @@ const ProductsList = () => {
 
   const getProductData = useCallback(() => {
     const { getProducts } = ProductsActionCreators;
-    dispatch(getProducts());
+    dispatch(getProducts(true));
   }, [dispatch]);
 
   useEffect(() => {

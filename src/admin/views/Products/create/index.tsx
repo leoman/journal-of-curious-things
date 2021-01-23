@@ -1,6 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect }  from 'react';
 import { useHistory } from "react-router-dom"
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   Box,
   Container,
@@ -11,6 +11,7 @@ import {
 } from '@material-ui/core'
 
 import { ProductsActionCreators } from '../../../../redux/actions/product';
+import { ThemesActionCreators } from '../../../../redux/actions/theme'
 
 import Layout from '../../Layout'
 import Page from '../../../components/Page'
@@ -22,11 +23,26 @@ const ProductCreate = () => {
   const dispatch = useDispatch()
   const onCancel = () => history.push('/admin/products')
 
+  const { themes, loading: themeLoading } = useSelector(
+    (state: any) => state.ThemeReducer,
+  )
+
   const onSubmit = useCallback((fields) => {
     const { addProduct } = ProductsActionCreators;
     dispatch(addProduct(fields));
     history.push('/admin/products')
   }, [dispatch, history]);
+
+  const getThemesData = useCallback(() => {
+    const { getThemes } = ThemesActionCreators
+    dispatch(getThemes())
+  }, [dispatch])
+
+  useEffect(() => {
+    if (!themes.length) {
+      getThemesData()
+    }
+  }, [themeLoading, themes, getThemesData])
 
   return (
     <Page>
@@ -41,6 +57,7 @@ const ProductCreate = () => {
               <Form
                 onSubmit={onSubmit}
                 onCancel={onCancel}
+                themesList={themes}
               />
             </Box>
           </Card>

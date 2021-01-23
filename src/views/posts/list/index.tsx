@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from "react-router-dom"
 import Layout from '../../Layout'
+import Loading from '../../../components/loading'
 import { PostsActionCreators } from '../../../redux/actions/post'
 import {
   Grid,
@@ -31,7 +32,10 @@ const Post = ({ title, slug, image, excerpt }: PostBlock) => {
   const imageEl = useRef<any>(null);
   const [gridRowEnd, setGridRowEnd] = useState<number>(0);
 
-  const linkTo = (url: string) => history.push(`/posts/${url}`)
+  const linkTo = (url: string) => {
+    console.log('linkTo', url);
+    history.push(`/posts/${url}`)
+  }
 
   useEffect(() => {
     const mainImage = new Image();
@@ -64,11 +68,15 @@ const Post = ({ title, slug, image, excerpt }: PostBlock) => {
               <div>
                 <ImageTitle>{title}</ImageTitle>
               </div>
-              <HR />
-              <Desc>
-                <p>{excerpt}</p>
-              </Desc>
-              <HR />
+              {excerpt && (
+                <>
+                  <HR />
+                  <Desc>
+                    <p>{excerpt}</p>
+                  </Desc>
+                  <HR />
+                </>
+              )}
             </OverlayContent>
           </Overlay>
         </EffectWrapper>
@@ -86,7 +94,7 @@ const PostsList = () => {
 
   const getPostData = useCallback(() => {
     const { getPosts } = PostsActionCreators;
-    dispatch(getPosts());
+    dispatch(getPosts(true));
   }, [dispatch]);
 
   useEffect(() => {
@@ -95,7 +103,25 @@ const PostsList = () => {
     }
   }, [loading, loaded, getPostData, postError]);
 
-  if (!posts) return null
+  if (loading) {
+    return <Loading />
+  }
+
+  if (postError) {
+    return (
+      <div>
+        <p>An error has occurred, please try again later.</p>
+      </div>
+    )
+  }
+
+  if (!posts.length) {
+    return (
+      <div>
+        <p>No Posts can be found.</p>
+      </div>
+    )
+  }
   
   return (
     <div>

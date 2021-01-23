@@ -59,7 +59,7 @@ export const AddToCart = styled.div`
  
 `;
 
-export const ProductImages = styled.div`
+export const ProductImagesWrapper = styled.div`
   width: 60%;
   margin-left: 20px;
   display: none;

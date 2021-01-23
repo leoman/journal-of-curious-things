@@ -23,3 +23,7 @@
   --paradiso: #2c7a7b;
   --river-bed: #4a5568;
 }
+
+body {
+  margin: 0;
+}

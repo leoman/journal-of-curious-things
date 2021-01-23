@@ -38,7 +38,7 @@ const TableRows = ({ posts, ...links }: TableRowsI) => (
   </TableBody>  
 )
 
-const TableRowComp = ({ id, title, date, status, sticky, previewLink, editLink, deleteLink }: TableRowI) => (
+const TableRowComp = ({ id, slug, title, date, status, sticky, previewLink, editLink, deleteLink }: TableRowI) => (
   <TableRow>
     <TableCell>{ id }</TableCell>
     <TableCell>{ title }</TableCell>
@@ -56,7 +56,7 @@ const TableRowComp = ({ id, title, date, status, sticky, previewLink, editLink, 
           color="primary"
           variant="outlined"
           size="small"
-          onClick={() => previewLink(id)}
+          onClick={() => previewLink(slug)}
         >
         Preview
       </Button>
@@ -112,7 +112,7 @@ const PostsList = () => {
   if (!posts) return null
 
   const addPost = () => history.push('/admin/posts/create')
-  const previewPost = (id: number) => history.push(`/admin/posts/preview/${id}`)
+  const previewPost = (slug: string) => history.push(`/admin/posts/preview/${slug}`)
   const editPost = (id: number) => history.push(`/admin/posts/edit/${id}`)
   const deletePost = (id: number) => {
     const result = window.confirm("Are you sure you want to delete this post?");

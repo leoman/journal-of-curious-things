@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   Button,
+  ButtonGroup,
   CardContent,
   Chip,
   Grid,
@@ -12,6 +13,7 @@ import {
   Select,
   TextField,
 } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import SaveIcon from '@material-ui/icons/Save';
 import {
@@ -19,12 +21,16 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { ProductsActionCreators } from '../../../redux/actions/product'
 import { ProductI } from '../../../models/product';
+import { ThemeI } from '../../../models/theme';
+import Photos from '../../components/Photos'
 
 interface Props {
   onSubmit: (fields: ProductI) => void
   onCancel: () => void
   product?: ProductI
+  themesList: ThemeI[]
 }
 
 const useStyles = makeStyles(() =>
@@ -40,6 +46,9 @@ const useStyles = makeStyles(() =>
     chip: {
       margin: 2,
     },
+    buttonGroup: {
+      marginTop: '16px'
+    }
   }),
 );
 
@@ -54,22 +63,10 @@ const MenuProps = {
   },
 };
 
-const themesList = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 // eslint-disable-next-line react/display-name
 export default ({
   product,
+  themesList,
   onSubmit,
   onCancel,
 }: Props) => {
@@ -84,7 +81,10 @@ export default ({
     photo: productPhoto,
     productType: productProductType = 'class',
     pricePence: productPricePence,
+    themes: productThemes,
   } = product || {}
+
+  const dispatch = useDispatch()
   
   const id = productId || null;
   const [title, setTitle] = useState(productTitle);
@@ -105,28 +105,19 @@ export default ({
   const handlePricePence = useCallback(({ target: { value } }) => setPricePence(value), [setPricePence])
   const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [setPhoto])
 
-  const [themes, setThemes] = React.useState<string[]>([]);
-  const handleTheme = useCallback(({ target: { value } }) => { console.log(value); setThemes(value) }, [])
-
-  useEffect(() => {
-    setTitle(productTitle);
-    setSubTitle(productSubTitle);
-    setContent(productContent);
-    setStatus(productStatus);
-    setDate(productDate);
-    setPhoto(productPhoto);
-    setProductType(productType);
-    setPricePence(pricePence);
-  }, [
-    productTitle,
-    productSubTitle,
-    productContent,
-    productStatus,
-    productDate,
-    productPhoto,
-    pricePence,
-    productType
-  ])
+  const [themeObjects, setThemeObjects] = useState([]);
+  const themesToId = (themes) => {
+    const themeObjects = themesList
+      .filter(theme => themes.find(item => item === theme.name))
+      .map(theme => theme.id)
+    setThemeObjects(themeObjects)
+  }
+  const themesToName = (themes) => themes.map(theme => theme.name)
+  const [themes, setThemes] = useState(themesToName(productThemes || []));
+  const handleTheme = useCallback(({ target: { value } }) => { setThemes(value); themesToId(value) } , [])
+  
+  const [images, setImages] = useState([])
+  const handleImages = useCallback((image) => setImages([...images, { url: image, local: true }]), [])
 
   const handleSubmit = useCallback(() => onSubmit({ 
     id,
@@ -137,7 +128,9 @@ export default ({
     date,
     photo,
     pricePence,
-    productType
+    productType,
+    themes: themeObjects,
+    images,
   }), [
     id,
     title,
@@ -148,8 +141,20 @@ export default ({
     photo,
     pricePence,
     productType,
+    themeObjects,
+    images,
     onSubmit
   ])
+
+  const handleRemoveImage = useCallback((id, local) => {
+    console.log(id, local);
+    if (local) {
+      setImages(images.filter((_image, i) => id !== i))
+    } else {
+      const { deleteProductImage } = ProductsActionCreators
+      dispatch(deleteProductImage({ id, local }))
+    }
+  }, [dispatch, images])
 
   return (
     <CardContent>
@@ -263,6 +268,13 @@ export default ({
         variant="outlined"
       />
 
+      <Photos
+        show={Boolean(id)}
+        images={[...product.productImage, ...images]}
+        remove={handleRemoveImage}
+        handleImages={handleImages}
+      />
+
       <FormControl className={classes.formControl}>
         <InputLabel id="themes-label">Themes</InputLabel>
         <Select
@@ -282,30 +294,31 @@ export default ({
           MenuProps={MenuProps}
         >
           {themesList.map((theme) => (
-            <MenuItem key={theme} value={theme}>
-              {theme}
+            <MenuItem key={theme.id} value={theme.name}>
+              {theme.name}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={handleSubmit}
-        startIcon={<SaveIcon />}
-      >
-        Save
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        size="large"
-        onClick={onCancel}
-      >
-        Cancel
-      </Button>
+      <ButtonGroup className={classes.buttonGroup}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleSubmit}
+          startIcon={<SaveIcon />}
+        >
+          Save
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+      </ButtonGroup>
     </CardContent>
   );
 }

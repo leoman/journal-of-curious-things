@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import {
   Button,
+  ButtonGroup,
   CardContent,
   Grid,
   FormControl,
@@ -37,6 +38,9 @@ const useStyles = makeStyles(() =>
     switch: {
       textAlign: 'center',
       marginTop: '16px',
+    },
+    buttonGroup: {
+      marginTop: '16px'
     }
   }),
 );
@@ -78,26 +82,6 @@ export default ({
   const handleSticky = useCallback(({ target: { checked } }) => setSticky(checked), [setSticky])
   const handleDate = useCallback((date) => setDate(date), [setDate])
   const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [setPhoto])
-
-  // useEffect(() => {
-  //   setTitle(postTitle);
-  //   setSubTitle(postSubTitle);
-  //   setContent(postContent);
-  //   setExcerpt(postExcerpt || '');
-  //   setStatus(postStatus);
-  //   setSticky(postSticky);
-  //   setDate(postDate);
-  //   setPhoto(postPhoto);
-  // }, [
-  //   postTitle,
-  //   postSubTitle,
-  //   postContent,
-  //   postStatus,
-  //   postExcerpt,
-  //   postSticky,
-  //   postDate,
-  //   postPhoto
-  // ])
 
   const handleSubmit = useCallback(() => onSubmit({ 
     id,
@@ -222,23 +206,25 @@ export default ({
         value={photo}
         variant="outlined"
       />
-      <Button
-        variant="contained"
-        color="primary"
-        size="large"
-        onClick={handleSubmit}
-        startIcon={<SaveIcon />}
-      >
-        Save
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        size="large"
-        onClick={onCancel}
-      >
-        Cancel
-      </Button>
+      <ButtonGroup className={classes.buttonGroup}>
+        <Button
+          variant="contained"
+          color="primary"
+          size="large"
+          onClick={handleSubmit}
+          startIcon={<SaveIcon />}
+        >
+          Save
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="large"
+          onClick={onCancel}
+        >
+          Cancel
+        </Button>
+      </ButtonGroup>
     </CardContent>
   );
 }

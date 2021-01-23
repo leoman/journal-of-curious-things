@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useMemo } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router"
@@ -15,7 +15,7 @@ import {
   Price,
   Description,
   AddToCart,
-  ProductImages
+  ProductImagesWrapper
 } from './styles'
 
 interface RouteParams {
@@ -23,6 +23,25 @@ interface RouteParams {
 }
 
 const findProduct = (products: ProductI[], slug: string) => products.find(product => product.slug === slug)
+
+const ProductImages = ({ photo, images }: any) => {
+
+  const showPhoto = photo ? <img alt={''} src={photo} /> : null;
+  const showImages = images && Array.isArray(images) ?  (
+    <div>
+      {images.map((image, i) => (
+        <img key={i} alt={''} src={image.url} />
+      ))}
+    </div>
+  ) : null;
+
+  return (
+    <ProductImagesWrapper>
+      {showPhoto}
+      {showImages}
+    </ProductImagesWrapper>
+  )
+}
 
 
 const ProductView = () => {
@@ -70,6 +89,19 @@ const ProductView = () => {
     return <Loading />
   }
 
+  const productImages = () => {
+    if (!product.productImage || !Array.isArray(product.productImage)) {
+      return null
+    }
+    return (
+      <div>
+        {product.productImage.map((image, i) => (
+          <img key={i} alt={''} src={image.url} />
+        ))}
+      </div>
+    )
+  }
+
   return (
     <Product>
       <ProductContent>
@@ -102,11 +134,10 @@ const ProductView = () => {
 
       </ProductContent>
 
-      <ProductImages>
-        {product.photo && (
-          <img alt={''} src={product.photo} />
-        )}
-      </ProductImages>
+      <ProductImages
+        photo={product.photo}
+        images={product.productImage}
+      />
 
     </Product>
   )

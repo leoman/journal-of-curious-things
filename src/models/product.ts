@@ -1,4 +1,12 @@
 import { TableLinks } from './adminTable'
+import { ThemeI } from './theme'
+
+export interface ProductImages {
+  id: number
+  url: string
+  title?: string
+  local?: boolean
+}
 
 export interface ProductI {
   id: number
@@ -12,6 +20,9 @@ export interface ProductI {
   status: string
   date: number
   photo: string
+  productImage?: ProductImages[]
+  themes?: ThemeI[]
+  images?: string[]
 }
 
 export interface Products {

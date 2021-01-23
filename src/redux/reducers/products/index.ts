@@ -16,6 +16,7 @@ export const initialState = {
     excerpt: '',
     date: new Date().toISOString(),
     photo: '',
+    productImage: [],
   }
 };
 
@@ -52,6 +53,15 @@ export default (state = initialState, action) => {
         product: {
           ...state.product,
           ...payload
+        }
+      };
+    }
+    case ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES: {
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          productImage: state.product.productImage.filter(image => image.id !== payload)
         }
       };
     }
