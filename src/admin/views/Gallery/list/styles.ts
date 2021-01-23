@@ -1,10 +1,6 @@
-import styled from 'styled-components';
-import { SortableContainer, SortableElement } from 'react-sortable-hoc';
-import {
-  GridList,
-  GridListTile,
-} from '@material-ui/core';
-
+import styled from "styled-components";
+// import { SortableContainer, SortableElement } from 'react-sortable-hoc';
+import { GridList, GridListTile } from "@material-ui/core";
 
 export const SortableContainerWrapper = styled(GridList)``;
 export const SortableElementWrapper = styled(GridListTile)``;
@@ -27,7 +23,7 @@ export const ImageOverlayHover = styled.div`
   align-items: center;
   justify-content: center;
   transition: all 0.5s ease-in-out;
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   cursor: pointer;
   z-index: 1;
   &:hover {
@@ -36,6 +32,6 @@ export const ImageOverlayHover = styled.div`
 `;
 
 export const AddPhotoWrapper = styled.div`
-   margin-top: 8px;
-   margin-bottom: 8px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 `;

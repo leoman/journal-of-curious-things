@@ -1,7 +1,7 @@
-import { ProductsActionTypes } from '../../types';
-import JournalAPI, { methods } from '../JournalAPI';
+import { ProductsActionTypes } from "../../types";
+import JournalAPI, { methods } from "../JournalAPI";
 
-const SERVICE = 'dev';
+const SERVICE = "dev";
 
 export const ProductsActionCreators = {
   getProducts: (live = false) => async (dispatch) => {
@@ -9,23 +9,27 @@ export const ProductsActionCreators = {
       type: ProductsActionTypes.GET_PRODUCTS_REQ,
     });
 
-    let filter = '';
+    let filter = "";
     if (live) {
-      filter = '?status=live'
+      filter = "?status=live";
     }
 
     try {
-      const response: any = await JournalAPI(SERVICE, methods.GET, `products${filter}`);
+      const response: any = await JournalAPI(
+        SERVICE,
+        methods.GET,
+        `products${filter}`
+      );
       dispatch({
         type: ProductsActionTypes.GET_PRODUCTS_RES,
         payload: response.data.result || [],
       });
     } catch (e) {
-      console.error('Error - getProducts:', e);
+      console.error("Error - getProducts:", e);
       dispatch({
         type: ProductsActionTypes.GET_PRODUCTS_RES,
         payload: [],
-        error: e.data ? e.data.message : 'Something went wrong',
+        error: e.data ? e.data.message : "Something went wrong",
       });
     }
   },
@@ -34,17 +38,22 @@ export const ProductsActionCreators = {
       type: ProductsActionTypes.CREATE_PRODUCT_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.POST, 'product', data);
+      const response: any = await JournalAPI(
+        SERVICE,
+        methods.POST,
+        "product",
+        data
+      );
       dispatch({
         type: ProductsActionTypes.CREATE_PRODUCT_RES,
         payload: response.data.result || [],
       });
-      dispatch(ProductsActionCreators.getProducts())
+      dispatch(ProductsActionCreators.getProducts());
     } catch (e) {
-      console.error('Error - addProduct:', e);
+      console.error("Error - addProduct:", e);
       dispatch({
         type: ProductsActionTypes.CREATE_PRODUCT_RES,
-        error: e.data ? e.data.message : 'Something went wrong',
+        error: e.data ? e.data.message : "Something went wrong",
       });
     }
   },
@@ -53,17 +62,22 @@ export const ProductsActionCreators = {
       type: ProductsActionTypes.EDIT_PRODUCT_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.PATCH, 'product', data);
+      const response: any = await JournalAPI(
+        SERVICE,
+        methods.PATCH,
+        "product",
+        data
+      );
       dispatch({
         type: ProductsActionTypes.EDIT_PRODUCT_RES,
         payload: response.data.result || [],
       });
-      dispatch(ProductsActionCreators.getProducts())
+      dispatch(ProductsActionCreators.getProducts());
     } catch (e) {
-      console.error('Error - editProduct:', e);
+      console.error("Error - editProduct:", e);
       dispatch({
         type: ProductsActionTypes.EDIT_PRODUCT_RES,
-        error: e.data ? e.data.message : 'Something went wrong',
+        error: e.data ? e.data.message : "Something went wrong",
       });
     }
   },
@@ -72,17 +86,22 @@ export const ProductsActionCreators = {
       type: ProductsActionTypes.DELETE_PRODUCT_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'product', data);
+      const response: any = await JournalAPI(
+        SERVICE,
+        methods.DELETE,
+        "product",
+        data
+      );
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_RES,
         payload: response.data.success || [],
       });
-      dispatch(ProductsActionCreators.getProducts())
+      dispatch(ProductsActionCreators.getProducts());
     } catch (e) {
-      console.error('Error - deleteProduct:', e);
+      console.error("Error - deleteProduct:", e);
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_RES,
-        error: e.data ? e.data.message : 'Something went wrong',
+        error: e.data ? e.data.message : "Something went wrong",
       });
     }
   },
@@ -91,16 +110,16 @@ export const ProductsActionCreators = {
       type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'product-images', data);
+      await JournalAPI(SERVICE, methods.DELETE, "product-images", data);
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES,
         payload: data.id,
       });
     } catch (e) {
-      console.error('Error - deleteProductImages:', e);
+      console.error("Error - deleteProductImages:", e);
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES,
-        error: e.data ? e.data.message : 'Something went wrong',
+        error: e.data ? e.data.message : "Something went wrong",
       });
     }
   },

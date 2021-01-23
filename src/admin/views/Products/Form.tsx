@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import {
   Button,
   ButtonGroup,
@@ -12,44 +12,44 @@ import {
   MenuItem,
   Select,
   TextField,
-} from '@material-ui/core'
-import { useDispatch } from 'react-redux'
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import SaveIcon from '@material-ui/icons/Save';
+} from "@material-ui/core";
+import { useDispatch } from "react-redux";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import SaveIcon from "@material-ui/icons/Save";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { ProductsActionCreators } from '../../../redux/actions/product'
-import { ProductI } from '../../../models/product';
-import { ThemeI } from '../../../models/theme';
-import Photos from '../../components/Photos'
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { ProductsActionCreators } from "../../../redux/actions/product";
+import { ProductI } from "../../../models/product";
+import { ThemeI } from "../../../models/theme";
+import Photos from "../../components/Photos";
 
 interface Props {
-  onSubmit: (fields: ProductI) => void
-  onCancel: () => void
-  product?: ProductI
-  themesList: ThemeI[]
+  onSubmit: (fields: ProductI) => void;
+  onCancel: () => void;
+  product?: ProductI;
+  themesList: ThemeI[];
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
     formControl: {
-      minWidth: '100%',
-      marginTop: '16px'
+      minWidth: "100%",
+      marginTop: "16px",
     },
     chips: {
-      display: 'flex',
-      flexWrap: 'wrap',
+      display: "flex",
+      flexWrap: "wrap",
     },
     chip: {
       margin: 2,
     },
     buttonGroup: {
-      marginTop: '16px'
-    }
-  }),
+      marginTop: "16px",
+    },
+  })
 );
 
 const ITEM_HEIGHT = 48;
@@ -64,28 +64,23 @@ const MenuProps = {
 };
 
 // eslint-disable-next-line react/display-name
-export default ({
-  product,
-  themesList,
-  onSubmit,
-  onCancel,
-}: Props) => {
+export default ({ product, themesList, onSubmit, onCancel }: Props) => {
   const classes = useStyles();
   const {
     id: productId,
     title: productTitle,
     subTitle: productSubTitle,
     content: productContent,
-    status: productStatus = 'draft',
+    status: productStatus = "draft",
     date: productDate,
     photo: productPhoto,
-    productType: productProductType = 'class',
+    productType: productProductType = "class",
     pricePence: productPricePence,
     themes: productThemes,
-  } = product || {}
+  } = product || {};
 
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
+
   const id = productId || null;
   const [title, setTitle] = useState(productTitle);
   const [subTitle, setSubTitle] = useState(productSubTitle);
@@ -96,65 +91,100 @@ export default ({
   const [productType, setProductType] = useState(productProductType);
   const [pricePence, setPricePence] = useState(productPricePence);
 
-  const handleTitle = useCallback(({ target: { value } }) => setTitle(value), [setTitle])
-  const handleSubTitle = useCallback(({ target: { value } }) => setSubTitle(value), [setSubTitle])
-  const handleContent = useCallback(({ target: { value } }) => setContent(value), [setContent])
-  const handleStatus = useCallback(({ target: { value } }) => setStatus(value), [setStatus])
-  const handleDate = useCallback((date) => setDate(date), [setDate])
-  const handleProductType = useCallback(({ target: { value } }) => setProductType(value), [setProductType])
-  const handlePricePence = useCallback(({ target: { value } }) => setPricePence(value), [setPricePence])
-  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [setPhoto])
+  const handleTitle = useCallback(({ target: { value } }) => setTitle(value), [
+    setTitle,
+  ]);
+  const handleSubTitle = useCallback(
+    ({ target: { value } }) => setSubTitle(value),
+    [setSubTitle]
+  );
+  const handleContent = useCallback(
+    ({ target: { value } }) => setContent(value),
+    [setContent]
+  );
+  const handleStatus = useCallback(
+    ({ target: { value } }) => setStatus(value),
+    [setStatus]
+  );
+  const handleDate = useCallback((date) => setDate(date), [setDate]);
+  const handleProductType = useCallback(
+    ({ target: { value } }) => setProductType(value),
+    [setProductType]
+  );
+  const handlePricePence = useCallback(
+    ({ target: { value } }) => setPricePence(value),
+    [setPricePence]
+  );
+  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [
+    setPhoto,
+  ]);
 
   const [themeObjects, setThemeObjects] = useState([]);
-  const themesToId = (themes) => {
-    const themeObjects = themesList
-      .filter(theme => themes.find(item => item === theme.name))
-      .map(theme => theme.id)
-    setThemeObjects(themeObjects)
-  }
-  const themesToName = (themes) => themes.map(theme => theme.name)
+  const themesToName = (themes) => themes.map((theme) => theme.name);
   const [themes, setThemes] = useState(themesToName(productThemes || []));
-  const handleTheme = useCallback(({ target: { value } }) => { setThemes(value); themesToId(value) } , [])
-  
-  const [images, setImages] = useState([])
-  const handleImages = useCallback((image) => setImages([...images, { url: image, local: true }]), [])
+  const handleTheme = useCallback(
+    ({ target: { value } }) => {
+      const themesToId = (themes) => {
+        const themeObjects = themesList
+          .filter((theme) => themes.find((item) => item === theme.name))
+          .map((theme) => theme.id);
+        setThemeObjects(themeObjects);
+      };
+      setThemes(value);
+      themesToId(value);
+    },
+    [themesList]
+  );
 
-  const handleSubmit = useCallback(() => onSubmit({ 
-    id,
-    title,
-    subTitle,
-    content,
-    status,
-    date,
-    photo,
-    pricePence,
-    productType,
-    themes: themeObjects,
-    images,
-  }), [
-    id,
-    title,
-    subTitle,
-    content,
-    status,
-    date,
-    photo,
-    pricePence,
-    productType,
-    themeObjects,
-    images,
-    onSubmit
-  ])
+  const [images, setImages] = useState([]);
+  const handleImages = useCallback(
+    (image) => setImages([...images, { url: image, local: true }]),
+    [images]
+  );
 
-  const handleRemoveImage = useCallback((id, local) => {
-    console.log(id, local);
-    if (local) {
-      setImages(images.filter((_image, i) => id !== i))
-    } else {
-      const { deleteProductImage } = ProductsActionCreators
-      dispatch(deleteProductImage({ id, local }))
-    }
-  }, [dispatch, images])
+  const handleSubmit = useCallback(
+    () =>
+      onSubmit({
+        id,
+        title,
+        subTitle,
+        content,
+        status,
+        date,
+        photo,
+        pricePence,
+        productType,
+        themes: themeObjects,
+        images,
+      }),
+    [
+      id,
+      title,
+      subTitle,
+      content,
+      status,
+      date,
+      photo,
+      pricePence,
+      productType,
+      themeObjects,
+      images,
+      onSubmit,
+    ]
+  );
+
+  const handleRemoveImage = useCallback(
+    (id, local) => {
+      console.log(id, local);
+      if (local) {
+        setImages(images.filter((_image, i) => id !== i));
+      } else {
+        const { deleteProductImage } = ProductsActionCreators;
+        dispatch(deleteProductImage({ id, local }));
+      }
+    },
+    [dispatch, images]
+  );
 
   return (
     <CardContent>
@@ -171,7 +201,9 @@ export default ({
             value={pricePence}
             variant="outlined"
           />
-          <FormHelperText>Price in pence, without a decimal. e.g. £4 -&gt; 400</FormHelperText>
+          <FormHelperText>
+            Price in pence, without a decimal. e.g. £4 -&gt; 400
+          </FormHelperText>
         </Grid>
         <Grid item xs={3}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -185,7 +217,7 @@ export default ({
               value={date}
               onChange={handleDate}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
             />
           </MuiPickersUtilsProvider>
@@ -200,8 +232,8 @@ export default ({
               onChange={handleStatus}
               label="Status"
             >
-              <MenuItem value={'draft'}>Draft</MenuItem>
-              <MenuItem value={'live'}>Live</MenuItem>
+              <MenuItem value={"draft"}>Draft</MenuItem>
+              <MenuItem value={"live"}>Live</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -215,8 +247,8 @@ export default ({
               onChange={handleProductType}
               label="Product Type"
             >
-              <MenuItem value={'class'}>Class</MenuItem>
-              <MenuItem value={'print'}>Print</MenuItem>
+              <MenuItem value={"class"}>Class</MenuItem>
+              <MenuItem value={"print"}>Print</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -321,5 +353,4 @@ export default ({
       </ButtonGroup>
     </CardContent>
   );
-}
-
+};

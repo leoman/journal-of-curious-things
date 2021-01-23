@@ -1,25 +1,23 @@
-import React, { useState, useCallback } from 'react';
-import {
-  TextField,
-  Button,
-} from '@material-ui/core';
-import SaveIcon from '@material-ui/icons/Save';
-import { AddPhotoWrapper } from './styles'
+import React, { useState, useCallback } from "react";
+import { TextField, Button } from "@material-ui/core";
+import SaveIcon from "@material-ui/icons/Save";
+import { AddPhotoWrapper } from "./styles";
 
 interface Props {
-  addPhoto: (photo: string) => void
+  addPhoto: (photo: string) => void;
 }
 
 const AddPhoto = ({ addPhoto }: Props) => {
-
-  const [photo, setPhoto] = useState('')
+  const [photo, setPhoto] = useState("");
 
   const onClick = useCallback(() => {
-    addPhoto(photo)
-    setPhoto('')
-  }, [photo])
+    addPhoto(photo);
+    setPhoto("");
+  }, [photo, addPhoto]);
 
-  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [setPhoto])
+  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [
+    setPhoto,
+  ]);
 
   return (
     <AddPhotoWrapper>
@@ -46,4 +44,4 @@ const AddPhoto = ({ addPhoto }: Props) => {
   );
 };
 
-export default AddPhoto
+export default AddPhoto;
