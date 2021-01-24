@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from "react-router-dom"
-import Layout from '../../Layout'
-import Loading from '../../../components/loading'
-import { PostsActionCreators } from '../../../redux/actions/post'
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Layout from "../../Layout";
+import Loading from "../../../components/loading";
+import { PostsActionCreators } from "../../../redux/actions/post";
 import {
   Grid,
   GridItem,
@@ -15,27 +15,25 @@ import {
   ImageWrapper,
   ImageTitle,
   HR,
-  Desc
-} from './styles'
+  Desc,
+} from "./styles";
 
 interface PostBlock {
-  title: string
-  slug: string
-  image: string
-  excerpt: string
+  title: string;
+  slug: string;
+  image: string;
+  excerpt: string;
 }
 
-
-const Post = ({ title, slug, image, excerpt }: PostBlock) => {
-
-  const history = useHistory()
+const Post = ({ title, subtitle, slug, image, excerpt }: PostBlock) => {
+  const history = useHistory();
   const imageEl = useRef<any>(null);
   const [gridRowEnd, setGridRowEnd] = useState<number>(0);
 
   const linkTo = (url: string) => {
-    console.log('linkTo', url);
-    history.push(`/posts/${url}`)
-  }
+    console.log("linkTo", url);
+    history.push(`/posts/${url}`);
+  };
 
   useEffect(() => {
     const mainImage = new Image();
@@ -44,15 +42,27 @@ const Post = ({ title, slug, image, excerpt }: PostBlock) => {
       const rowGap = 30;
       const rowHeight = 10;
       if (imageEl) {
-        setGridRowEnd(Math.ceil((imageEl.current.querySelector('.content').getBoundingClientRect().height + rowGap)/(rowHeight+rowGap)))
+        setGridRowEnd(
+          Math.ceil(
+            (imageEl.current.querySelector(".content").getBoundingClientRect()
+              .height +
+              rowGap) /
+              (rowHeight + rowGap)
+          )
+        );
       }
     };
 
-    mainImage.src = image
-  }, [image])
+    mainImage.src = image;
+  }, [image]);
 
   return (
-    <GridItem ref={imageEl} style={{ gridRowEnd: `span ${gridRowEnd}` }} onClick={() => linkTo(slug)} className="item blog">
+    <GridItem
+      ref={imageEl}
+      style={{ gridRowEnd: `span ${gridRowEnd}` }}
+      onClick={() => linkTo(slug)}
+      className="item blog"
+    >
       <div className="content">
         <EffectWrapper>
           {image && (
@@ -66,7 +76,7 @@ const Post = ({ title, slug, image, excerpt }: PostBlock) => {
           <Overlay className="overlay">
             <OverlayContent>
               <div>
-                <ImageTitle>{title}</ImageTitle>
+                <ImageTitle>{subtitle || title}</ImageTitle>
               </div>
               {excerpt && (
                 <>
@@ -82,14 +92,14 @@ const Post = ({ title, slug, image, excerpt }: PostBlock) => {
         </EffectWrapper>
       </div>
     </GridItem>
-  )
-}
+  );
+};
 
 const PostsList = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const { posts, loading, loaded, postError } = useSelector(
-    (state: any) => state.PostReducer,
+    (state: any) => state.PostReducer
   );
 
   const getPostData = useCallback(() => {
@@ -104,7 +114,7 @@ const PostsList = () => {
   }, [loading, loaded, getPostData, postError]);
 
   if (loading) {
-    return <Loading />
+    return <Loading />;
   }
 
   if (postError) {
@@ -112,7 +122,7 @@ const PostsList = () => {
       <div>
         <p>An error has occurred, please try again later.</p>
       </div>
-    )
+    );
   }
 
   if (!posts.length) {
@@ -120,26 +130,26 @@ const PostsList = () => {
       <div>
         <p>No Posts can be found.</p>
       </div>
-    )
+    );
   }
-  
+
   return (
     <div>
       <Grid>
         {posts.map(({ id, slug, title, photo, excerpt }) => (
           <Post
-            key={id} 
+            key={id}
             title={title}
             slug={slug}
-            image={photo} 
+            image={photo}
             excerpt={excerpt}
           />
         ))}
       </Grid>
     </div>
-  )
-}
+  );
+};
 
-const WrappedPostList = () => <Layout component={PostsList} />
+const WrappedPostList = () => <Layout component={PostsList} />;
 
-export default WrappedPostList
+export default WrappedPostList;
