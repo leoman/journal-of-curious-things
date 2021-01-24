@@ -125,13 +125,8 @@ export const VideoElement = ({ attributes, children, element }) => {
 };
 
 export const LinkElement = ({ attributes, children, element }) => {
-  // const editor = useEditor()
   return (
-    <a
-      {...attributes}
-      // onDoubleClick={() => insertNewLink(editor, element)}
-      href={element.url}
-    >
+    <a {...attributes} href={element?.url}>
       {children}
     </a>
   );
