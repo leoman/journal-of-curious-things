@@ -20,6 +20,7 @@ import {
 
 interface PostBlock {
   title: string;
+  subtitle?: string;
   slug: string;
   image: string;
   excerpt: string;
