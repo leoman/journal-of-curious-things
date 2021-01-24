@@ -1,36 +1,40 @@
-import { insertImage, isImageUrl } from '../helpers'
+import { insertImage, isImageUrl } from "../helpers";
 
-export const withImages = editor => {
-  const { insertData, isVoid } = editor
+export const withImages = (editor) => {
+  const { insertData, isVoid } = editor;
 
-  editor.isVoid = element => {
-    return element.type === 'image' || element.type === 'double-image' ? true : isVoid(element)
-  }
+  editor.isVoid = (element) => {
+    return element.type === "image" || element.type === "double-image"
+      ? true
+      : isVoid(element);
+  };
 
-  editor.insertData = data => {
-    const text = data.getData('text/plain')
-    const { files } = data
+  editor.insertData = (data) => {
+    console.log("withImages - insertData", data);
+
+    const text = data.getData("text/plain");
+    const { files } = data;
 
     if (files && files.length > 0) {
       for (const file of files) {
-        const reader = new FileReader()
-        const [mime] = file.type.split('/')
+        const reader = new FileReader();
+        const [mime] = file.type.split("/");
 
-        if (mime === 'image') {
-          reader.addEventListener('load', () => {
-            const url = reader.result
-            insertImage(editor, url)
-          })
+        if (mime === "image") {
+          reader.addEventListener("load", () => {
+            const url = reader.result;
+            insertImage(editor, url);
+          });
 
-          reader.readAsDataURL(file)
+          reader.readAsDataURL(file);
         }
       }
     } else if (isImageUrl(text)) {
-      insertImage(editor, text)
+      insertImage(editor, text);
     } else {
-      insertData(data)
+      insertData(data);
     }
-  }
+  };
 
-  return editor
-}
+  return editor;
+};
