@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Button,
   ButtonGroup,
@@ -12,45 +12,41 @@ import {
   Select,
   Switch,
   TextField,
-} from '@material-ui/core'
-import { createStyles, makeStyles } from '@material-ui/core/styles';
-import SaveIcon from '@material-ui/icons/Save';
+} from "@material-ui/core";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
+import SaveIcon from "@material-ui/icons/Save";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { PostI } from '../../../models/post';
-import SlateEditor from '../../components/SlateEditor'
+} from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import { PostI } from "../../../models/post";
+import SlateEditor from "../../components/SlateEditor";
 
 interface Props {
-  onSubmit: (fields: any) => void
-  onCancel: () => void
-  post?: PostI
+  onSubmit: (fields: any) => void;
+  onCancel: () => void;
+  post?: PostI;
 }
 
 const useStyles = makeStyles(() =>
   createStyles({
     formControl: {
-      minWidth: '100%',
-      marginTop: '16px',
+      minWidth: "100%",
+      marginTop: "16px",
     },
     switch: {
-      textAlign: 'center',
-      marginTop: '16px',
+      textAlign: "center",
+      marginTop: "16px",
     },
     buttonGroup: {
-      marginTop: '16px'
-    }
-  }),
+      marginTop: "16px",
+    },
+  })
 );
 
 // eslint-disable-next-line react/display-name
-export default ({
-  post,
-  onSubmit,
-  onCancel,
-}: Props) => {
+export default ({ post, onSubmit, onCancel }: Props) => {
   const classes = useStyles();
   const {
     id: postId,
@@ -58,53 +54,93 @@ export default ({
     subTitle: postSubTitle,
     content: postContent,
     excerpt: postExcerpt,
-    status: postStatus = 'draft',
+    status: postStatus = "draft",
     sticky: postSticky,
     date: postDate,
     photo: postPhoto,
-  } = post || {}
-  
+  } = post || {};
+
   const id = postId || null;
   const [title, setTitle] = useState(postTitle);
-  const [subTitle, setSubTitle] = useState(postSubTitle || '');
+  const [subTitle, setSubTitle] = useState(postSubTitle || "");
   const [content, setContent] = useState(postContent);
-  const [excerpt, setExcerpt] = useState(postExcerpt || '');
+  const [excerpt, setExcerpt] = useState(postExcerpt || "");
   const [status, setStatus] = useState(postStatus);
   const [sticky, setSticky] = useState(postSticky);
   const [date, setDate] = useState(postDate);
   const [photo, setPhoto] = useState(postPhoto);
 
-  const handleTitle = useCallback(({ target: { value } }) => setTitle(value), [setTitle])
-  const handleSubTitle = useCallback(({ target: { value } }) => setSubTitle(value), [setSubTitle])
-  const handleContent = useCallback((value) => setContent(value), [setContent])
-  const handleExcerpt = useCallback(({ target: { value } }) => setExcerpt(value), [setExcerpt])
-  const handleStatus = useCallback(({ target: { value } }) => setStatus(value), [setStatus])
-  const handleSticky = useCallback(({ target: { checked } }) => setSticky(checked), [setSticky])
-  const handleDate = useCallback((date) => setDate(date), [setDate])
-  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [setPhoto])
+  const handleTitle = useCallback(({ target: { value } }) => setTitle(value), [
+    setTitle,
+  ]);
+  const handleSubTitle = useCallback(
+    ({ target: { value } }) => setSubTitle(value),
+    [setSubTitle]
+  );
+  const handleContent = useCallback((value) => setContent(value), [setContent]);
+  const handleExcerpt = useCallback(
+    ({ target: { value } }) => setExcerpt(value),
+    [setExcerpt]
+  );
+  const handleStatus = useCallback(
+    ({ target: { value } }) => setStatus(value),
+    [setStatus]
+  );
+  const handleSticky = useCallback(
+    ({ target: { checked } }) => setSticky(checked),
+    [setSticky]
+  );
+  const handleDate = useCallback((date) => setDate(date), [setDate]);
+  const handlePhoto = useCallback(({ target: { value } }) => setPhoto(value), [
+    setPhoto,
+  ]);
 
-  const handleSubmit = useCallback(() => onSubmit({ 
-    id,
-    title,
-    subTitle,
-    content,
-    excerpt,
-    status,
-    sticky,
-    date,
-    photo
-  }), [
-    id,
-    title,
-    subTitle,
-    content,
-    excerpt,
-    status,
-    sticky,
-    date,
-    photo,
-    onSubmit
-  ])
+  const handleSubmit = useCallback(
+    () =>
+      onSubmit({
+        id,
+        title,
+        subTitle,
+        content,
+        excerpt,
+        status,
+        sticky,
+        date,
+        photo,
+      }),
+    [
+      id,
+      title,
+      subTitle,
+      content,
+      excerpt,
+      status,
+      sticky,
+      date,
+      photo,
+      onSubmit,
+    ]
+  );
+
+  useEffect(() => {
+    setTitle(postTitle);
+    setSubTitle(postSubTitle);
+    setContent(postContent);
+    setExcerpt(postExcerpt);
+    setStatus(postStatus);
+    setSticky(postSticky);
+    setDate(postDate);
+    setPhoto(postPhoto);
+  }, [
+    postTitle,
+    postSubTitle,
+    postContent,
+    postExcerpt,
+    postStatus,
+    postSticky,
+    postDate,
+    postPhoto,
+  ]);
 
   return (
     <CardContent>
@@ -119,8 +155,8 @@ export default ({
               onChange={handleStatus}
               label="Status"
             >
-              <MenuItem value={'draft'}>Draft</MenuItem>
-              <MenuItem value={'live'}>Live</MenuItem>
+              <MenuItem value={"draft"}>Draft</MenuItem>
+              <MenuItem value={"live"}>Live</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -153,7 +189,7 @@ export default ({
               value={date}
               onChange={handleDate}
               KeyboardButtonProps={{
-                'aria-label': 'change date',
+                "aria-label": "change date",
               }}
             />
           </MuiPickersUtilsProvider>
@@ -180,10 +216,7 @@ export default ({
         value={subTitle}
         variant="outlined"
       />
-      <SlateEditor
-        initialValue={content}
-        onChange={handleContent}
-      />
+      <SlateEditor initialValue={content} onChange={handleContent} />
       <TextField
         fullWidth
         label="Excerpt"
@@ -227,5 +260,4 @@ export default ({
       </ButtonGroup>
     </CardContent>
   );
-}
-
+};

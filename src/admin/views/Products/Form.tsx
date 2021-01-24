@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Button,
   ButtonGroup,
@@ -185,6 +185,26 @@ export default ({ product, themesList, onSubmit, onCancel }: Props) => {
     },
     [dispatch, images]
   );
+
+  useEffect(() => {
+    setTitle(productTitle);
+    setSubTitle(productSubTitle);
+    setContent(productContent);
+    setStatus(productStatus);
+    setDate(productDate);
+    setPhoto(productPhoto);
+    setProductType(productProductType);
+    setPricePence(productPricePence);
+  }, [
+    productTitle,
+    productSubTitle,
+    productContent,
+    productStatus,
+    productDate,
+    productPhoto,
+    productProductType,
+    productPricePence,
+  ]);
 
   return (
     <CardContent>
