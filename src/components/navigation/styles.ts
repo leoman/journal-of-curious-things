@@ -5,7 +5,6 @@ export const NavigationWrapper = styled.div`
   box-shadow: 0 1px 3px 0 rgba(235, 64, 52, 0.1), 0 1px 2px 0 rgba(235, 64, 52, 0.06);
   background: linear-gradient(180deg, var(--wisp-pink), var(--carousel-pink));
   width: 100%;
-  margin-bottom: 2rem;
 `;
 
 export const Links = styled.div`

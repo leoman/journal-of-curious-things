@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
+  Button,
   Container,
   Grid,
   Card,
   CardHeader,
   Divider,
 } from "@material-ui/core";
-
-import { GridList, GridListTile } from "@material-ui/core";
-
+import SaveIcon from "@material-ui/icons/Save";
+import { GridList } from "@material-ui/core";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import {
   SortableContainer as sortableContainer,
@@ -19,16 +18,50 @@ import {
 } from "react-sortable-hoc";
 import arrayMove from "array-move";
 
+import AddPhoto from './AddPhoto'
+
 import { GalleryImagesActionCreators } from "../../../../redux/actions/galleryImage";
 
 import Layout from "../../Layout";
 import Page from "../../../components/Page";
 import Toolbar from "../../../components/Toolbar";
 
-import { PhotosWrapper, ImageOverlayHover } from "./styles";
+import { PhotosWrapper, ImageOverlayHover, SortableElementWrapper } from "./styles";
+
+
+// const fakeImages = [
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49578525526_7956c61260_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49578018978_201ffc09e2_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49578522571_7b1cab5c9f_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49578516676_5b6a6c5ae9_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49578004613_4dc7f55681_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49586866968_b6ee2005af_b.jpg",
+//   },
+//   {
+//     local: true,
+//     url: "https://live.staticflickr.com/65535/49586861873_eb8f02815c_b.jpg",
+//   },
+// ]
 
 const SortableItem = sortableElement(({ children }) => (
-  <GridListTile>{children}</GridListTile>
+  <SortableElementWrapper>{children}</SortableElementWrapper>
 ));
 
 const SortableContainer = sortableContainer(({ children }) => (
@@ -39,37 +72,8 @@ const SortableContainer = sortableContainer(({ children }) => (
 
 const GalleryImagesList = () => {
   const dispatch = useDispatch();
-
-  const [images, setImages] = useState([
-    {
-      id: 1,
-      url: "https://live.staticflickr.com/65535/49578525526_7956c61260_b.jpg",
-    },
-    {
-      id: 2,
-      url: "https://live.staticflickr.com/65535/49578018978_201ffc09e2_b.jpg",
-    },
-    {
-      id: 3,
-      url: "https://live.staticflickr.com/65535/49578522571_7b1cab5c9f_b.jpg",
-    },
-    {
-      id: 4,
-      url: "https://live.staticflickr.com/65535/49578516676_5b6a6c5ae9_b.jpg",
-    },
-    {
-      id: 5,
-      url: "https://live.staticflickr.com/65535/49578004613_4dc7f55681_b.jpg",
-    },
-    {
-      id: 6,
-      url: "https://live.staticflickr.com/65535/49586866968_b6ee2005af_b.jpg",
-    },
-    {
-      id: 7,
-      url: "https://live.staticflickr.com/65535/49586861873_eb8f02815c_b.jpg",
-    },
-  ]);
+  const [showAddPhoto, setShowAddPhoto] = useState<boolean>(false);
+  const [images, setImages] = useState([]);
 
   const { galleryImages, loading, loaded, galleryImageError } = useSelector(
     (state: any) => state.GalleryImageReducer
@@ -94,58 +98,87 @@ const GalleryImagesList = () => {
     }
   }, [loading, loaded, getGalleryImageData, galleryImageError]);
 
-  const onClickRemove = useCallback((id) => {
-    if (window.confirm("Do you really want to delete this?")) {
-      console.log(id);
-    }
-  }, []);
+  useEffect(() => {
+    setImages(galleryImages)
+  }, [galleryImages]);
 
-  const addGalleryImage = () => console.log("addGalleryImage");
-  // const editGalleryImage = (id: number) => console.log('editGalleryImage')
-  // const deleteGalleryImage = (id: number) => {
-  //   const result = window.confirm("Are you sure you want to delete this galleryImage?");
-  //   if (result) { removeGalleryImage(id) }
-  // }
+  const removeLocalImage = useCallback((photo) => setImages(images.filter(image => image !== photo)), [images])
+
+  const onClickRemove = useCallback((image) => {
+    if (window.confirm("Do you really want to delete this?")) {
+      if(image.local) {
+        removeLocalImage(image)
+      } else {
+        removeGalleryImage(image.id)
+      }
+    }
+  }, [removeLocalImage, removeGalleryImage]);
+
+  const showAddPhotoComp = () => setShowAddPhoto(true)
+
+  const addGalleryImage = (image) => {
+    setImages([image, ...images])
+    setShowAddPhoto(false)
+  }
 
   const onSortEnd = ({ oldIndex, newIndex }) => {
     setImages(arrayMove(images, oldIndex, newIndex));
   };
 
-  if (!galleryImages) return null;
+  const onSaveImages = useCallback(
+    () => {
+      console.log(images);
+      const { addGalleryImages } = GalleryImagesActionCreators;
+      dispatch(addGalleryImages({ images }));
+    },
+    [dispatch, images]
+  );
+
+  if (!images) return null;
 
   return (
     <Page>
       <Container maxWidth="lg">
-        <Toolbar link={addGalleryImage} title={"Add GalleryImage"} />
+        <Toolbar link={showAddPhotoComp} title={"Add new Gallery Image"} />
 
         <Grid container>
           <Card style={{ width: "100%" }}>
+
+          <Button
+            variant="contained"
+            color="primary"
+            size="large"
+            onClick={onSaveImages}
+            startIcon={<SaveIcon />}
+          >
+            Save Images
+          </Button>
+
             <CardHeader title="GalleryImages" />
             <Divider />
             <PerfectScrollbar>
               <Box minWidth={800}>
                 <PhotosWrapper>
-                  {/* <AddPhoto
-                    addPhoto={addPhoto}
-                  /> */}
-                  {/* <SortableContainerWrapper cols={1} cellHeight={200}> */}
+                  <AddPhoto
+                    show={showAddPhoto}
+                    addPhoto={addGalleryImage}
+                  />
                   <SortableContainer onSortEnd={onSortEnd}>
                     {images.map((item, index) => (
                       <SortableItem key={item.url} index={index}>
                         <ImageOverlayHover
-                          onClick={() => onClickRemove(item.id)}
+                          onClick={() => onClickRemove(item)}
                         >
                           Delete?
                         </ImageOverlayHover>
                         <img
                           srcSet={`${item.url}?w=200&h=200&fit=cover&auto=format 1x`}
                           alt={item.url}
-                          onClick={() => onClickRemove(item.id)}
+                          onClick={() => onClickRemove(item)}
                         />
                       </SortableItem>
                     ))}
                   </SortableContainer>
-                  {/* </SortableContainerWrapper> */}
                 </PhotosWrapper>
               </Box>
             </PerfectScrollbar>

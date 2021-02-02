@@ -23,6 +23,8 @@ import AdminThemesEdit from "./admin/views/Themes/edit";
 
 import AdminGalleryList from "./admin/views/Gallery/list";
 
+import Gallery from "./views/gallery";
+
 import PostsList from "./views/posts/list";
 import PostView from "./views/posts/view";
 
@@ -79,6 +81,7 @@ const App = () => (
           <Route path="/admin">
             <Redirect to="/admin/posts" />
           </Route>
+          <Route path="/gallery" exact component={Gallery} />
           <Route path="/products/:slug" exact component={ProductView} />
           <Route path="/products" exact component={ProductsList} />
           <Route path="/posts/:slug" exact component={PostView} />

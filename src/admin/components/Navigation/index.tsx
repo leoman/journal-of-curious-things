@@ -9,6 +9,7 @@ import FilterIcon from '@material-ui/icons/Filter';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import ImageIcon from '@material-ui/icons/Image';
 
 import NavItem from './NavItem';
 
@@ -22,6 +23,11 @@ const items = [
     href: '/admin/products',
     icon: StorefrontIcon,
     title: 'Products'
+  },
+  {
+    href: '/admin/gallery',
+    icon: ImageIcon,
+    title: 'Gallery'
   },
   {
     href: '/admin/orders',

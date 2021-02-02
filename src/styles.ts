@@ -25,6 +25,7 @@ export const AppWrapper = styled.div`
 
 interface ContentProps {
   readonly flex?: boolean
+  readonly isSticky?: boolean
 }
 
 export const Content = styled.div<ContentProps>`
@@ -33,4 +34,5 @@ export const Content = styled.div<ContentProps>`
   margin-right: auto;
   flex: 1 0 auto;
   display: ${props => (props.flex ? 'flex' : 'block')};
+  padding-top: ${props => (props.isSticky ? '380px' : '40px')}; 
 `;

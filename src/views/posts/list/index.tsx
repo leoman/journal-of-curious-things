@@ -19,11 +19,11 @@ import {
 } from "./styles";
 
 interface PostBlock {
-  title: string;
-  subtitle?: string;
-  slug: string;
-  image: string;
-  excerpt: string;
+  title: string
+  subtitle?: string
+  slug: string
+  image: string
+  excerpt: string
 }
 
 const Post = ({ title, subtitle, slug, image, excerpt }: PostBlock) => {

@@ -46,6 +46,8 @@ export const serialize = (node) => {
   const children = node.children.map((n) => serialize(n)).join("");
 
   switch (node.type) {
+    case "image":
+      return `<img src=${node.url} alt=${node.url} />`;
     case "block-quote":
       return `<blockquote><p>${children}</p></blockquote>`;
     case "paragraph":

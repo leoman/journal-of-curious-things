@@ -2,8 +2,12 @@ import styled from "styled-components";
 // import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import { GridList, GridListTile } from "@material-ui/core";
 
-export const SortableContainerWrapper = styled(GridList)``;
-export const SortableElementWrapper = styled(GridListTile)``;
+export const SortableContainerWrapper = styled(GridList)`
+`;
+export const SortableElementWrapper = styled(GridListTile)`
+  height: 200px;
+  width: 100%;
+`;
 
 export const PhotosWrapper = styled.div`
   margin-bottom: 2rem;

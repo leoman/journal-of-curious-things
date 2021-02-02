@@ -56,7 +56,31 @@ export const Description = styled.div`
 `;
 
 export const AddToCart = styled.div`
- 
+  cursor: pointer;
+  font-family: 'Heebo', sans-serif;
+  display: block;
+  color: #2d3748;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-weight: 700;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+  font-size: 16px;
+  letter-spacing: 1.2px;
+  margin: 2rem 0;
+
+  background-color: #fff;
+  border: 2px solid #CE848F;
+  color: #CE848F;
+
+  &:hover {
+    background-color: #CE848F;
+    border-color: #CE848F;
+    color: #fff;
+  }
 `;
 
 export const ProductImagesWrapper = styled.div`

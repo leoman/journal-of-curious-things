@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export const Title = styled.div`
+export const Title = styled.div<any>`
   margin: 0 auto;
   display: flex;
   align-items: center;
+  display: ${props => props.sticky ? `none` : "flex"};
 `;
 
 export const TextWrapper = styled.div`
@@ -60,4 +61,19 @@ export const H2 = styled.h2`
   position: absolute;
   right: 80px;
   bottom: 20px;
+`;
+
+export const StickyWrapper = styled.div<any>`
+  top: 0;
+  width: 100%;
+  z-index: 100;
+  height: 161px;
+  transition: all 1s ease-in;
+`;
+
+
+export const HeaderWrapper = styled.header<any>`
+  height: ${props => props.sticky ? `161px` : "auto"};
+  position: ${props => props.sticky ? `fixed` : "relative"};
+  z-index: 100;
 `;
