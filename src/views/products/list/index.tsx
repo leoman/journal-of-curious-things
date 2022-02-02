@@ -23,21 +23,21 @@ import {
 } from "./styles";
 
 interface ProductI {
-  title: string;
-  slug: string;
-  photo: string;
-  excerpt: string;
-  pricePence: number;
+  title: string
+  slug: string
+  photo: string
+  excerpt: string
+  pricePence: number
 }
 
 interface Props {
-  products: ProductI[];
+  products: ProductI[]
 }
 
 interface ProductTypeI {
-  value: string;
-  id: number;
-  placeHolder?: string;
+  value: string
+  id: number
+  placeHolder?: string
 }
 
 const productTypes = [
@@ -94,8 +94,8 @@ const CurrentFilter = ({
   toggle,
   type: { value, placeHolder = "" },
 }: {
-  toggle: any;
-  type: ProductTypeI;
+  toggle: any
+  type: ProductTypeI
 }) => {
   const output = placeHolder ? placeHolder : value;
   return (
@@ -110,9 +110,9 @@ const FilterOptions = ({
   types,
   select,
 }: {
-  show: boolean;
-  types: ProductTypeI[];
-  select: any;
+  show: boolean
+  types: ProductTypeI[]
+  select: any
 }) => {
   return show ? (
     <FilterOptionsWrapper>
@@ -235,9 +235,18 @@ const ProductsList = () => {
 
   if (!filteredProducts.length) {
     return (
-      <div>
-        <p>No Products can be found.</p>
-      </div>
+      <Content flex>
+        <ProductsWrapper>
+          <ProductSlider products={filteredProducts} />
+          <ProductFilters
+            current={current}
+            showProductTypes={showProductTypes}
+            toggleShowProductTypes={toggleShowProductTypes}
+            productTypeSelect={productTypeSelect}
+          />
+          <p>No Products can be found.</p>
+        </ProductsWrapper>
+      </Content>
     );
   }
 

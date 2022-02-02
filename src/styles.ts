@@ -35,4 +35,15 @@ export const Content = styled.div<ContentProps>`
   flex: 1 0 auto;
   display: ${props => (props.flex ? 'flex' : 'block')};
   padding-top: ${props => (props.isSticky ? '380px' : '40px')}; 
+
+  @media only screen and (max-width: 768px) {
+    padding-top: 1rem;
+    display: block;
+  }
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    padding-top: 1rem;
+    display: block;
+  }
 `;

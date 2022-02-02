@@ -74,7 +74,7 @@ const ThemesList = () => {
 
   const removeTheme = useCallback((id) => {
     const { deleteTheme } = ThemesActionCreators;
-    dispatch(deleteTheme({ id }));
+    dispatch(deleteTheme(id));
   }, [dispatch]);
 
   useEffect(() => {

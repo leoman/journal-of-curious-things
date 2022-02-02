@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "../Layout"
 import { GalleryImagesActionCreators } from "../../redux/actions/galleryImage";
 import { GalleryWrapper, Figure, FigureCaption, Img } from './styles'
+import Loading from "../../components/loading";
 
 const valueBetween = () => Math.floor(Math.random() * (10 - -10 + 1)) + -10
 
@@ -28,6 +29,8 @@ const GalleryComp = () => {
   useEffect(() => {
     setImages(galleryImages)
   }, [galleryImages]);
+
+  if (loading) return <Loading />
 
   return (
     <GalleryWrapper>

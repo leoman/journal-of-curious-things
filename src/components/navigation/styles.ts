@@ -1,16 +1,34 @@
 import styled from 'styled-components';
 
-export const NavigationWrapper = styled.div`
+export const NavigationWrapper = styled.div<any>`
   background-color: var(--wisp-pink);
   box-shadow: 0 1px 3px 0 rgba(235, 64, 52, 0.1), 0 1px 2px 0 rgba(235, 64, 52, 0.06);
   background: linear-gradient(180deg, var(--wisp-pink), var(--carousel-pink));
   width: 100%;
+
+  @media only screen 
+  and (max-device-width: 1024px) {
+    display: ${props => (props.showMobileMenu ? 'block' : 'none')}; 
+  }
 `;
 
 export const Links = styled.div`
   display: flex;
   justify-items: center;
   justify-content: center;
+
+  @media only screen and (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
 `;
 
 export const LinkWrapper = styled.div`
@@ -29,6 +47,18 @@ export const LinkWrapper = styled.div`
   overflow: hidden;
   will-change: color;
   transition: color .25s ease-out; 
+
+  @media only screen and (max-width: 768px) {
+    border-bottom: 3px solid #fff;
+    margin: .5rem 0; 
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    border-bottom: 3px solid #fff;
+    margin: .5rem 0;
+  }
 
   &.current {
     color: #fc416a;
@@ -49,6 +79,15 @@ export const LinkWrapper = styled.div`
     transition: width .1s ease-out;
     position: absolute;
     bottom: 0;
+
+    @media only screen and (max-width: 768px) {
+      display: none;
+    }
+    @media only screen 
+    and (min-device-width: 768px) 
+    and (max-device-width: 1024px) {
+      display: none;
+    }
   }
 
   &::before{

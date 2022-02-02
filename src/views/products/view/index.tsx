@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
@@ -7,6 +7,8 @@ import Loading from "../../../components/loading";
 import { ProductsActionCreators } from "../../../redux/actions/product";
 import { ProductsActionTypes } from "../../../redux/types";
 import { ProductI } from "../../../models/product";
+import Purchase from "./purchase";
+import { priceFormat } from "../../helpers";
 import {
   Product,
   ProductContent,
@@ -19,7 +21,7 @@ import {
 } from "./styles";
 
 interface RouteParams {
-  slug: string;
+  slug: string
 }
 
 const findProduct = (products: ProductI[], slug: string) =>
@@ -49,11 +51,11 @@ const ProductView = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const [purchase, setPurchase] = useState<boolean>(false);
+
   const { products, loading, productError, product } = useSelector(
     (state: any) => state.ProductReducer
   );
-
-  console.log(product);
 
   const getProductsData = useCallback(() => {
     const { getProducts } = ProductsActionCreators;
@@ -91,9 +93,13 @@ const ProductView = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handlePurchase = useCallback(() => setPurchase(true), [setPurchase])
+
   if (loading) {
     return <Loading />;
   }
+
+  console.log(product);
 
   return (
     <Product>
@@ -114,12 +120,15 @@ const ProductView = () => {
         </Title>
 
         <Price>
-          <h4>{product.priceCents}</h4>
+          <h4>{priceFormat(product.pricePence)}</h4>
         </Price>
 
         <Description>{product.description}</Description>
 
-        <AddToCart>Purchase Product</AddToCart>
+        {purchase && <AddToCart onClick={handlePurchase}>Purchase Product</AddToCart>}
+
+        {!purchase && <Purchase product={product} />}
+        
       </ProductContent>
 
       <ProductImages photo={product.photo} images={product.productImage} />

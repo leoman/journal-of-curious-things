@@ -100,7 +100,7 @@ const PostsList = () => {
 
   const removePost = useCallback((id) => {
     const { deletePost } = PostsActionCreators;
-    dispatch(deletePost({ id }));
+    dispatch(deletePost(id));
   }, [dispatch]);
 
   useEffect(() => {

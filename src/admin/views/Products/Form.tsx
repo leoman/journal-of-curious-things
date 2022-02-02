@@ -180,7 +180,7 @@ export default ({ product, themesList, onSubmit, onCancel }: Props) => {
         setImages(images.filter((_image, i) => id !== i));
       } else {
         const { deleteProductImage } = ProductsActionCreators;
-        dispatch(deleteProductImage({ id, local }));
+        dispatch(deleteProductImage(id, { id, local }));
       }
     },
     [dispatch, images]

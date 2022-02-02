@@ -83,9 +83,9 @@ const ProductEdit = () => {
   const onSubmit = useCallback((fields) => {
     console.log('fields', fields)
     const { editProduct } = ProductsActionCreators
-    dispatch(editProduct(fields))
+    dispatch(editProduct(id, fields))
     history.push('/admin/products')
-  }, [dispatch, history])
+  }, [dispatch, history, id])
 
   if (loading || !product || !product.id) {
     return null

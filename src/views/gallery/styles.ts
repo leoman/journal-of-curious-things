@@ -9,6 +9,9 @@ export const GalleryWrapper = styled.div`
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: center;
+  &:figure::nth-child(3) {
+    margin-right: 0;
+  }
 `;
 
 export const Figure = styled.figure<any>`
@@ -16,9 +19,10 @@ export const Figure = styled.figure<any>`
   /* background-color: white; */
   text-align: center;
   font-size: 15px;
-  width: calc(50% - 50px);
+  width: calc(25% - 1rem);
+  max-height: 200px;
   box-sizing: border-box;
-  margin: 25px;
+  margin: 1rem 1rem 1rem 0;
   padding: 0;
   cursor: pointer;
   /* box-shadow: 1px 2px 3px black; */

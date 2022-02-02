@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Content = styled.div`
+export const Content = styled.div<any>`
   flex: 1 1 auto;
   display: flex;
   /* overflow: hidden; */
@@ -8,5 +8,5 @@ export const Content = styled.div`
   padding-top: 24px;
   padding-bottom: 24px;
   background-color: #f4f6f8;
-  padding-left: 256px;
+  padding-left: ${props => props.showNavigation ? `256px` : "0"};
 `;

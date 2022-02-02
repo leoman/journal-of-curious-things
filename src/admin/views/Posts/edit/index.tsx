@@ -66,9 +66,9 @@ const PostEdit = () => {
 
   const onSubmit = useCallback((fields) => {
     const { editPost } = PostsActionCreators
-    dispatch(editPost(fields))
+    dispatch(editPost(id, fields))
     history.push('/admin/posts')
-  }, [dispatch, history])
+  }, [dispatch, history, id])
 
   if (loading || !post || !post.id) {
     return null

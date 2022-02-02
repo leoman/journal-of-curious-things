@@ -27,7 +27,7 @@ export const GalleryImagesActionCreators = {
       type: GalleryImagesActionTypes.CREATE_GALLERY_IMAGES_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.POST, 'gallery-images', data);
+      const response: any = await JournalAPI(SERVICE, methods.POST, 'gallery-image', data);
       dispatch({
         type: GalleryImagesActionTypes.CREATE_GALLERY_IMAGES_RES,
         payload: response.data.result || [],
@@ -60,12 +60,12 @@ export const GalleryImagesActionCreators = {
   //     });
   //   }
   // },
-  deleteGalleryImage: (data) => async (dispatch) => {
+  deleteGalleryImage: (id) => async (dispatch) => {
     dispatch({
       type: GalleryImagesActionTypes.DELETE_GALLERY_IMAGES_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'gallery-images', data);
+      const response: any = await JournalAPI(SERVICE, methods.DELETE, `gallery-image/${id}`);
       dispatch({
         type: GalleryImagesActionTypes.DELETE_GALLERY_IMAGES_RES,
         payload: response.data.success || [],

@@ -16,6 +16,7 @@ export const PostsActionCreators = {
 
     try {
       const response: any = await JournalAPI(SERVICE, methods.GET, `posts${filter}`);
+      console.log('response', response.data);
       dispatch({
         type: PostsActionTypes.GET_POSTS_RES,
         payload: response.data.result || [],
@@ -48,12 +49,12 @@ export const PostsActionCreators = {
       });
     }
   },
-  editPost: (data) => async (dispatch) => {
+  editPost: (id, data) => async (dispatch) => {
     dispatch({
       type: PostsActionTypes.EDIT_POST_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.PATCH, 'post', data);
+      const response: any = await JournalAPI(SERVICE, methods.PATCH, `post/${id}`, data);
       dispatch({
         type: PostsActionTypes.EDIT_POST_RES,
         payload: response.data.result || [],
@@ -67,12 +68,12 @@ export const PostsActionCreators = {
       });
     }
   },
-  deletePost: (data) => async (dispatch) => {
+  deletePost: (id) => async (dispatch) => {
     dispatch({
       type: PostsActionTypes.DELETE_POST_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'post', data);
+      const response: any = await JournalAPI(SERVICE, methods.DELETE, `post/${id}`);
       dispatch({
         type: PostsActionTypes.DELETE_POST_RES,
         payload: response.data.success || [],

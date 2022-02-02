@@ -98,7 +98,7 @@ const ProductsList = () => {
 
   const removeProduct = useCallback((id) => {
     const { deleteProduct } = ProductsActionCreators;
-    dispatch(deleteProduct({ id }));
+    dispatch(deleteProduct(id));
   }, [dispatch]);
 
   useEffect(() => {

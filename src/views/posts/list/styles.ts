@@ -18,6 +18,12 @@ export const Grid = styled.div`
   @media (min-width: 1280px) {
     grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
   }
+
+  @media only screen 
+  and (max-device-width: 1024px) {
+    padding: 0 1.2rem;
+  }
+
 `;
 
 export const GridItem = styled.div`

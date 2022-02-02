@@ -10,6 +10,7 @@ import {
   H2,
   StickyWrapper,
   HeaderWrapper,
+  MobileNavToggle,
 } from './styles'
 
 // <% if @preview %>
@@ -41,8 +42,16 @@ const Images = ({ images }: any) => (
   </ImageGallery>
 )
 
+interface MobileMenuToggleProps {
+  onClick: (event: any) => void
+}
+const MobileMenuToggle = ({ onClick }: MobileMenuToggleProps) => (
+  <MobileNavToggle onClick={onClick} />
+)
+
 const Header = ({ setParentSticky }: any) => {
   const [isSticky, setSticky] = useState<boolean>(false);
+  const [showMobileMenu, setShowMobileMenu] = useState<boolean>(false);
   const ref = useRef(null);
   const handleScroll = useCallback(() => {
     if (ref.current) {
@@ -60,11 +69,16 @@ const Header = ({ setParentSticky }: any) => {
       window.removeEventListener('scroll', () => handleScroll);
     };
   }, [handleScroll]);
+
+  const toggleMobileMenu = useCallback(() => {
+    setShowMobileMenu(!showMobileMenu);
+  }, [showMobileMenu]);
   
   return (
     <HeaderWrapper sticky={isSticky}>
       <Title sticky={isSticky}>
         <TextWrapper>
+          <MobileMenuToggle onClick={toggleMobileMenu} />
           <H1>journal of curious things</H1>
           <H2>Adventures in scrapbooking</H2>
         </TextWrapper>
@@ -72,7 +86,7 @@ const Header = ({ setParentSticky }: any) => {
 
       <StickyWrapper sticky={isSticky} ref={ref}>
         <Images images={images} />
-        <Navigation />
+        <Navigation showMobileMenu={showMobileMenu} />
       </StickyWrapper>
     </HeaderWrapper>
   )

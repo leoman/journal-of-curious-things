@@ -24,12 +24,20 @@ export default (
   const URL = fullSource
     ? fullSource
     : `${apiURL}/${SERVICE}/${ENDPOINT}`;
+  const sessionToken = localStorage.getItem('sToken');
+  const jsonHeader = {
+    'Content-type': 'application/json',
+  };
+  const headers = { Authorization: sessionToken, ...jsonHeader };
+  const config = {
+    headers,
+  };
 
     switch(METHOD) {
       case methods.GET:
         return new Promise((resolve, reject) => {
           axios
-            .get(URL)
+            .get(URL, config)
             .then((response) => {
               return resolve(response);
             })
@@ -40,7 +48,7 @@ export default (
       case methods.POST:
           return new Promise((resolve, reject) => {
             axios
-              .post(URL, data)
+              .post(URL, data, config)
               .then((response) => {
                 return resolve(response);
               })
@@ -51,7 +59,7 @@ export default (
       case methods.PATCH:
         return new Promise((resolve, reject) => {
           axios
-            .patch(URL, data)
+            .patch(URL, data, config)
             .then((response) => {
               return resolve(response);
             })
@@ -65,6 +73,7 @@ export default (
             method: methods.DELETE,
             url: URL,
             data,
+            headers,
           };
           axios(request).then((response) => {
             return resolve(response);
@@ -76,7 +85,7 @@ export default (
       default:
         return new Promise((resolve, reject) => {
           axios
-            .get(URL)
+            .get(URL, config)
             .then((response) => {
               return resolve(response);
             })

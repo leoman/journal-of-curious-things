@@ -4,10 +4,10 @@ import Navigation from '../../components/Navigation'
 import { Content } from './styles'
 
 // eslint-disable-next-line react/display-name
-export default ({ component: Component }: any) => (
+export default ({ component: Component, showNavigation = true }: any) => (
   <>
-    <Navigation />
-    <Content>
+    {showNavigation && <Navigation />}
+    <Content showNavigation={showNavigation}>
       <Component />
     </Content>
   </>

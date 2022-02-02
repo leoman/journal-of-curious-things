@@ -87,7 +87,7 @@ const GalleryImagesList = () => {
   const removeGalleryImage = useCallback(
     (id) => {
       const { deleteGalleryImage } = GalleryImagesActionCreators;
-      dispatch(deleteGalleryImage({ id }));
+      dispatch(deleteGalleryImage(id));
     },
     [dispatch]
   );

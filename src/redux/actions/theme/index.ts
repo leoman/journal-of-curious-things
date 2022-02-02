@@ -41,12 +41,12 @@ export const ThemesActionCreators = {
       });
     }
   },
-  editTheme: (data) => async (dispatch) => {
+  editTheme: (id, data) => async (dispatch) => {
     dispatch({
       type: ThemesActionTypes.EDIT_THEME_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.PATCH, 'theme', data);
+      const response: any = await JournalAPI(SERVICE, methods.PATCH, `theme/${id}`, data);
       dispatch({
         type: ThemesActionTypes.EDIT_THEME_RES,
         payload: response.data.result || [],
@@ -60,12 +60,12 @@ export const ThemesActionCreators = {
       });
     }
   },
-  deleteTheme: (data) => async (dispatch) => {
+  deleteTheme: (id) => async (dispatch) => {
     dispatch({
       type: ThemesActionTypes.DELETE_THEME_REQ,
     });
     try {
-      const response: any = await JournalAPI(SERVICE, methods.DELETE, 'theme', data);
+      const response: any = await JournalAPI(SERVICE, methods.DELETE, `theme/${id}`);
       dispatch({
         type: ThemesActionTypes.DELETE_THEME_RES,
         payload: response.data.success || [],

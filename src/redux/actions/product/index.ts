@@ -57,7 +57,7 @@ export const ProductsActionCreators = {
       });
     }
   },
-  editProduct: (data) => async (dispatch) => {
+  editProduct: (id, data) => async (dispatch) => {
     dispatch({
       type: ProductsActionTypes.EDIT_PRODUCT_REQ,
     });
@@ -65,7 +65,7 @@ export const ProductsActionCreators = {
       const response: any = await JournalAPI(
         SERVICE,
         methods.PATCH,
-        "product",
+        `product/${id}`,
         data
       );
       dispatch({
@@ -81,7 +81,7 @@ export const ProductsActionCreators = {
       });
     }
   },
-  deleteProduct: (data) => async (dispatch) => {
+  deleteProduct: (id) => async (dispatch) => {
     dispatch({
       type: ProductsActionTypes.DELETE_PRODUCT_REQ,
     });
@@ -89,8 +89,7 @@ export const ProductsActionCreators = {
       const response: any = await JournalAPI(
         SERVICE,
         methods.DELETE,
-        "product",
-        data
+        `product/${id}`,
       );
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_RES,
@@ -105,15 +104,15 @@ export const ProductsActionCreators = {
       });
     }
   },
-  deleteProductImage: (data) => async (dispatch) => {
+  deleteProductImage: (id, data) => async (dispatch) => {
     dispatch({
       type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_REQ,
     });
     try {
-      await JournalAPI(SERVICE, methods.DELETE, "product-images", data);
+      await JournalAPI(SERVICE, methods.DELETE, `product-images/${id}`, data);
       dispatch({
         type: ProductsActionTypes.DELETE_PRODUCT_IMAGE_RES,
-        payload: data.id,
+        payload: id,
       });
     } catch (e) {
       console.error("Error - deleteProductImages:", e);

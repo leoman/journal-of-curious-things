@@ -66,9 +66,9 @@ const ThemeEdit = () => {
 
   const onSubmit = useCallback((fields) => {
     const { editTheme } = ThemesActionCreators
-    dispatch(editTheme(fields))
+    dispatch(editTheme(id, fields))
     history.push('/admin/themes')
-  }, [dispatch, history])
+  }, [dispatch, history, id])
 
   return (
     <Page>

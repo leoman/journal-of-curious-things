@@ -5,6 +5,12 @@ export const Title = styled.div<any>`
   display: flex;
   align-items: center;
   display: ${props => props.sticky ? `none` : "flex"};
+  @media only screen 
+  and (max-device-width: 1024px) {
+    display: block;
+    margin: 0;
+    width: 100%;
+  }
 `;
 
 export const TextWrapper = styled.div`
@@ -12,10 +18,36 @@ export const TextWrapper = styled.div`
   max-width: 75%;
   margin: 0 auto;
   display: inline-flex;
+
+  @media only screen 
+  and (max-device-width: 1024px) {
+    width: 100%;
+    display: block;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    width: 100%;
+    display: block;
+    margin: 0;
+    max-width: 100%;
+  }
+
 `;
 
 export const ImageGallery = styled.div`
   display: flex;
+  width: 100%;
+  margin: 0;
+  /* @media only screen 
+  and (max-device-width: 1024px) {
+    div:nth-child(even) {
+      display: none;
+    }
+  } */
 `;
 
 export const ImageWrapper = styled.div`
@@ -24,6 +56,13 @@ export const ImageWrapper = styled.div`
   position: relative;
   margin: auto;
   overflow: hidden;
+  @media only screen 
+  and (max-device-width: 1024px) {
+    margin: 0;
+    /* div:nth-child(even) {
+      width: calc(100% / 3);
+    } */
+  }
 `;
 
 export const ImageComponent = styled.img`
@@ -48,6 +87,24 @@ export const H1 = styled.h1`
   margin: 40px 0 60px;
   text-align: center;
   font-family: 'Sacramento', cursive;
+  font-weight: bold;
+
+  @media only screen and (max-width: 768px) {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 1rem 0 1rem;
+    word-wrap: break-word;
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    font-size: 2rem;
+    line-height: 2rem;
+    margin: 1rem 0 1rem;
+    word-wrap: break-word;
+  }
+
 `;
 
 export const H2 = styled.h2`
@@ -61,6 +118,26 @@ export const H2 = styled.h2`
   position: absolute;
   right: 80px;
   bottom: 20px;
+
+  @media only screen and (max-width: 768px) {
+    text-align: right;
+    position: relative;
+    margin-top: 1rem;
+    right: 0;
+    bottom: 0;
+    display: none;
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    text-align: right;
+    position: relative;
+    margin-top: 1rem;
+    right: 0;
+    bottom: 0;
+    display: none;
+  }
 `;
 
 export const StickyWrapper = styled.div<any>`
@@ -69,11 +146,61 @@ export const StickyWrapper = styled.div<any>`
   z-index: 100;
   height: 161px;
   transition: all 1s ease-in;
+
+  @media only screen and (max-width: 768px) {
+    height: auto;
+    position: relative;
+  }
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    height: auto;
+    position: relative;
+  }
 `;
 
 
 export const HeaderWrapper = styled.header<any>`
   height: ${props => props.sticky ? `161px` : "auto"};
   position: ${props => props.sticky ? `fixed` : "relative"};
-  z-index: 100;
+  z-index: 1100;
+  width: 100%;
+
+  @media only screen and (max-width: 768px) {
+    height: auto;
+    position: relative;
+  }
+
+  @media only screen 
+  and (min-device-width: 768px) 
+  and (max-device-width: 1024px) {
+    height: auto;
+    position: relative;
+  }
+`;
+
+export const MobileNavToggle = styled.div`
+  display: none;
+  position: relative;
+  font-size: 3rem;
+  cursor: pointer;
+  &:before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    left: 1.5rem;
+    width: 1.5rem;
+    height: 0.125rem;
+    border-top: 0.375rem double #000;
+    border-bottom: 0.375rem double #000;
+    font-size: 3rem;
+  }
+
+  @media only screen 
+  and (max-device-width: 1024px) {
+    display: block;
+    height: 0;
+    position: relative;
+    padding-left: 1.25em;
+  }
 `;

@@ -72,14 +72,15 @@ export const AddToCart = styled.div`
   letter-spacing: 1.2px;
   margin: 2rem 0;
 
-  background-color: #fff;
-  border: 2px solid #CE848F;
-  color: #CE848F;
+  background-color: var(--light-pink);
+  
+  border: 2px solid var(--light-pink);
+  color: var(--white);
 
   &:hover {
-    background-color: #CE848F;
-    border-color: #CE848F;
-    color: #fff;
+    background-color: var(--white);
+    border-color: var(--light-pink);
+    color: var(--light-pink);
   }
 `;
 

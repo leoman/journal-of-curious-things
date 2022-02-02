@@ -11,11 +11,15 @@ const navLinks = [
   { name: 'Blog Posts', url: '/' },
   { name: `Kirsty's Shop`, url: '/products' },
   { name: 'Gallery', url: '/gallery' },
-  { name: 'Other Item', url: '/other' },
-  { name: 'Another Item', url: '/ither' }
+  // { name: 'Other Item', url: '/other' },
+  // { name: 'Another Item', url: '/ither' }
 ]
 
-const Navigation = () => {
+interface Props {
+  showMobileMenu: boolean
+}
+
+const Navigation = ({ showMobileMenu }: Props) => {
   const [current, setCurrent] = useState('/')
   const history = useHistory()
 
@@ -28,7 +32,7 @@ const Navigation = () => {
   }, [linkTo, history])
   
   return (
-    <NavigationWrapper>
+    <NavigationWrapper showMobileMenu={showMobileMenu}>
       <Links>
         {navLinks.map(({ name, url }) => (
           <LinkWrapper  className={(current === url) ? 'current' : ''} key={name}>
